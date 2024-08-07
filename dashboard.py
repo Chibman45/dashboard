@@ -73,7 +73,7 @@ equity_data = {
 }
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
+server = app.server
 # Create DataFrames
 income_df = pd.DataFrame(income_data)
 expense_df = pd.DataFrame(expense_data)
