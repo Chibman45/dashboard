@@ -73,7 +73,7 @@ equity_data = {
 }
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-gunicorn dashboard:server
+server=app.server
 
 
 # Create DataFrames
