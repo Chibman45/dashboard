@@ -1,7 +1,7 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output
-import dash_table
+from dash import dash_table 
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -73,7 +73,7 @@ equity_data = {
 }
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-server = app.server
+
 # Create DataFrames
 income_df = pd.DataFrame(income_data)
 expense_df = pd.DataFrame(expense_data)
@@ -155,13 +155,13 @@ app.layout = dbc.Container([
 )
 def download_xls(n_clicks):
     output = io.BytesIO()
-    writer = pd.ExcelWriter(output, engine='openpyxl')
-    balance_sheet_df.to_excel(writer, sheet_name='Balance Sheet', index=False)
-    liabilities_df.to_excel(writer, sheet_name='Liabilities', index=False)
-    equity_df.to_excel(writer, sheet_name='Equity', index=False)
-    writer.save()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        balance_sheet_df.to_excel(writer, sheet_name='Balance Sheet', index=False)
+        liabilities_df.to_excel(writer, sheet_name='Liabilities', index=False)
+        equity_df.to_excel(writer, sheet_name='Equity', index=False)
     output.seek(0)
     return dcc.send_bytes(output.getvalue(), "balance_sheet.xlsx")
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
